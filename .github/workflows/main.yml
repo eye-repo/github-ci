@@ -41,8 +41,8 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
 
-      - name: run small-tests
-        run: poetry run pytest -s -v tests/large-tests
+      - name: run large-tests
+        run: poetry run pytest -s -v tests/large
 
   report_workflow:
     if: always()
