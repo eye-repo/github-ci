@@ -14,39 +14,30 @@ jobs:
           python-version: "3.9"
       - uses: pre-commit/action@v3.0.0
 
-  small-tests:
+  tests:
+    strategy:
+      matrix:
+        python_version: ["3.9", "3.10", "3.11"]
+        type: ["small", "large"]
+        exclude:
+          - python_version: "3.11"
+            type: "large"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.version }}
       - name: Install jobsim
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
           pip install pytest
 
-      - name: run small-tests
-        run: python -m pytest -v --junitxml=small_tests_results.xml tests/small
+      - name: run ${{ matrix.type }}-tests
+        run: python -m pytest -v --junitxml=${{ matrix.type }}_tests_results.xml tests/${{ matrix.type }}
 #        run: poetry run pytest -s -v tests/small
 
-  large-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-      - name: Install jobsim
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          poetry install
-          pip install pytest
-
-      - name: run large-tests
-        run: python -m pytest -v --junitxml=large_tests_results.xml tests/large
-#        run: poetry run pytest -s -v tests/large
 
   report_workflow:
     if: always()
