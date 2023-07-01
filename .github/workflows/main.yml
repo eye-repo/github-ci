@@ -26,7 +26,6 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
           pip install pytest
-          
 
       - name: run small-tests
         run: python -m pytest -v --junitxml=small_tests_results.xml tests/small
