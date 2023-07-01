@@ -42,7 +42,7 @@ jobs:
   report_workflow:
     if: always()
     runs-on: ubuntu-latest
-    needs: [small-tests, large-tests]
+    needs: tests
     steps:
       - uses: uoboda-splunk/workflow-info-splunk-upload-action@v1
         with:
