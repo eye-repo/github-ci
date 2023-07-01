@@ -40,3 +40,4 @@ jobs:
           splunk_token: ${{ secrets.SPLUNK_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
